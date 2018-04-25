@@ -5,21 +5,11 @@ import logging
 import sys
 
 
-try:
-	from app.indicators import *
-	from app.settings import *
-	from app import utils
-
-	print("succesful")
-	print(app.indicators)
-
-except ImportError as e:
-	print(e)
-	from ichi_conf import IchiConfig
-	from ema_conf import EmaConfig
-	from rsi_conf import RsiConfig
-	sys.path.append("../")
-	import utils
+from ichi_conf import IchiConfig
+from ema_conf import EmaConfig
+from rsi_conf import RsiConfig
+sys.path.append("../")
+import utils
 
 
 class Config:
