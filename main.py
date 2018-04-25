@@ -3,11 +3,11 @@
 import asyncio
 import sys
 
+sys.path.append("app/timeframes")
 sys.path.append("app/indicators")
 sys.path.append("app/settings")
 sys.path.append("app")
 
-from app.settings import *
 from app.settings import config
 from app import bot
 

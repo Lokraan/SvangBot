@@ -8,7 +8,9 @@ import sys
 from ichi_conf import IchiConfig
 from ema_conf import EmaConfig
 from rsi_conf import RsiConfig
-sys.path.append("../")
+
+import ichimoku
+import rsi
 import utils
 
 
@@ -37,7 +39,8 @@ class Config:
 		self.TIMEFRAME = "1m"
 		self.LEVERAGE = 25
 		self.INTERVAL = 60
-		# self.INDICATOR = indicators.Rsi() 
+		# Choosing Indicator
+		self.INDICATOR = "RSI"
 
 		## set up logging
 		logger = logging.getLogger()
@@ -61,6 +64,9 @@ class Config:
 		self.LOGGER = logger
 
 		self.UTILS = utils.Utils(self.CLIENT, self.LOGGER)
+
+		if self.INDICATOR == "RSI":
+			self.INDICATOR = rsi.RSI(self.UTILS, self.RSI_CFG, self.LOGGER)
 
 
 class DevConfig(Config):

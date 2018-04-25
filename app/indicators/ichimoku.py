@@ -1,10 +1,9 @@
-from datetime import datetime, timedelta
 
-try:
-    from app.indicators.indicator import Indicator
-except ImportError:
-    from indicator import Indicator
 
+from indicator import Indicator
+import states
+
+class Ichimoku(Indicator):
 
 def get(client, symbol, period_time, ichimoku_tenkan_sen_period, ichimoku_kijun_sen_period, 
     ichimoku_senkou_span_b_period, ichimoku_displacement_period) -> list:
