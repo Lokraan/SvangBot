@@ -1,6 +1,26 @@
 
 
 import ccxt.async as ccxt
+import logging
+import sys
+
+
+try:
+	from app.indicators import *
+	from app.settings import *
+	from app import utils
+
+	print("succesful")
+	print(app.indicators)
+
+except ImportError as e:
+	print(e)
+	from ichi_conf import IchiConfig
+	from ema_conf import EmaConfig
+	from rsi_conf import RsiConfig
+	sys.path.append("../")
+	import utils
+
 
 class Config:
 	def __init__(self, API_KEY=None, SECRET=None):
@@ -11,23 +31,46 @@ class Config:
 		self.API_KEY = API_KEY
 		self.SECRET = SECRET
 
-		if self.SECRET is None or self.KEY is None:
-			raise TypeError("Please specify a secret and key for bitmex api")
+		# if self.SECRET is None or self.KEY is None:
+		# 	raise TypeError("Please specify a secret and key for bitmex api")
 
-		self.CLIENT = ccxt.bitmex({
-			"apiKey": self.API_KEY,
-			"secret": self.SECRET
-			})
+		self.CLIENT = None #ccxt.bitmex({
+			# "apiKey": self.API_KEY,
+			# "secret": self.SECRET
+			# })
 
 		## TRADING CONFIG
-		self.EMAS = [13, 21, 34]
-		self.EMA1 = self.EMAS[0]
-		self.EMA2 = self.EMAS[1]
-		self.EMA3 = self.EMAS[2]
-		
+		self.EMA_CFG = EmaConfig
+		self.ICHI_CFG = IchiConfig
+		self.RSI_CFG = RsiConfig
 		self.MULTIPLIER = 1.25
+		self.TIMEFRAME = "1m"
 		self.LEVERAGE = 25
 		self.INTERVAL = 60
+		# self.INDICATOR = indicators.Rsi() 
+
+		## set up logging
+		logger = logging.getLogger()
+
+		level = logging.INFO
+
+		f_handler = logging.FileHandler(filename="../../svaang.log", encoding="utf-8", mode="w")
+		cl_handler = logging.StreamHandler()
+
+		dt_fmt = "%Y-%m-%d %H:%M:%S"
+		fmt = logging.Formatter("[{asctime}] [{levelname:<6}] {name}: {message}", 
+			dt_fmt, style="{")
+
+		cl_handler.setFormatter(fmt)
+		f_handler.setFormatter(fmt)
+
+		logger.addHandler(cl_handler)
+		logger.addHandler(f_handler)
+		logger.setLevel(level)
+
+		self.LOGGER = logger
+
+		self.UTILS = utils.Utils(self.CLIENT, self.LOGGER)
 
 
 class DevConfig(Config):
@@ -43,4 +86,8 @@ class DevConfig(Config):
 			},
 			"apiKey": self.API_KEY,
 			"secret": self.SECRET
-			})
+		})
+
+		self.LOGGER.setLevel(logging.DEBUG)
+
+cfg = Config()

@@ -1,5 +1,8 @@
 
-from indicator import Indicator
+try:
+	from app.indicators.indicator import Indicator
+except ImportError:
+	from indicator import Indicator
 
 
 class RSI(Indicator):
@@ -17,22 +20,22 @@ class RSI(Indicator):
 		period = self.period
 		max_len = period if period < len(prices) else len(prices)
 
-		losses = []
-		gains = []
+		losses = 0
+		gains = 0
 
 		for i in range(1, max_len):
 			try:
 				change = prices[i] - prices[i-1]
 				if change < 0:
-					losses.append(abs(change))
+					losses += abs(change)
 				elif change > 0:
-					gains.append(change)
+					gains += abs(gains)
 
 			except TypeError as e:
 				print(e, prices)
 
-		avg_loss = sum(losses) / period
-		avg_gain = sum(gains) / period
+		avg_loss = losses / period
+		avg_gain = gains / period
 
 		for i in range(period, len(prices)):
 			change = prices[i] - prices[i - 1]
@@ -40,7 +43,7 @@ class RSI(Indicator):
 			gain = change if change > 0 else 0
 
 			avg_gain = (avg_gain * (period - 1) + gain) / period
-			avg_loss = (avg_loss * (period - 1) + gain) / period
+			avg_loss = (avg_loss * (period - 1) + loss) / period
 
 		if avg_loss == 0:
 			return 100

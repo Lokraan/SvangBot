@@ -5,34 +5,21 @@ import sys
 from ccxt import bitmex
 
 sys.path.append("indicators")
-import ichimoku
+# import ichimoku
 
 class Bot:
-	def __init__(self, config: dict, logger=None, client=None):
-		self._config = config
-		self._logger = logger
+	def __init__(self, config):
+		self.cfg = config
 
-		self._symbol = config["symbol"]
+		self.client = self.cfg.CLIENT
+		self.logger = self.cfg.LOGGER
 
-		self._ichimoku_tenkan_sen_period = config["ichimoku_tenkan_sen_period"]
-		self._ichimoku_kijun_sen_period = config["ichimoku_kijun_sen_period"]
-		self._ichimoku_senkou_span_b_period = config["ichimoku_senkou_span_b_period"]
-		self._ichimoku_displacement_period = config["ichimoku_displacement_period"]
-		self._data_period = config["data_period"]
+		self.utils = self.cfg.UTILS
+
+
+	# async def analyze_symbol(self, indicator):
 		
-		self._leverage = config["leverage"]
-		self._n_multiplier = config["n_multiplier"]
 
-		self._seconds_per_cycle = config["seconds_per_cycle"]
-
-		if client:
-			self._client = client
-		else:
-			self._client = bitmex({
-				"test": config["test"],
-				"apiKey": config["apiKey"],
-				"secret": config["secret"]
-			})
 
 	def _get_current_price(self) -> float:
 		return [self._client.fetch_ticker(self._symbol)["high"], self._client.fetch_ticker(self._symbol)["close"]]

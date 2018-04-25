@@ -1,0 +1,9 @@
+
+
+from enum import Enum
+
+class IchiConfig(Enum):
+	SENKOU_SPAN_B_PERIOD = 52
+	DISPLACEMENT_PERIOD = 26
+	TENKAN_SAN_PERIOD = 9
+	KIJUN_SEN_PERIOD = 26
