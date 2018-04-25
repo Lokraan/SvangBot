@@ -1,13 +1,5 @@
+import pkgutil 
 
-# from os.path import dirname, basename, isfile
-# import glob
-
-# modules = glob.glob(dirname(__file__) + "/*.py")
-
-# __all__ = [
-# 			basename(f)[:-3] 
-# 			for f in modules 
-# 			if isfile(f) 
-# 			and not f.endswith('__init__.py')
-# 			and not basename(f).startswith("_")
-# 			]
+__path__ = pkgutil.extend_path(__path__, __name__)
+for importer, modname, ispkg in pkgutil.walk_packages(path=__path__, prefix=__name__+'.'):
+	__import__(modname)

@@ -5,7 +5,7 @@ import timedelta
 
 class OneHour(Timeframe):
 	"""
-	Timeframe class for five minutes.
+	Timeframe class for four hours.
 	"""
 
 	TIMEFRAME = "5m"
