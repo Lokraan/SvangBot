@@ -4,10 +4,10 @@ from indicator import Indicator
 import states
 
 class RSI(Indicator):
-	def __init__(self, utils, config, logger):
+	def __init__(self, utils, config, logger, timeframe):
 		Indicator.__init__(self, utils, config, logger)
 
-		self.timeframe = self.cfg.TIMEFRAME
+		self.timeframe = timeframe
 		self.distance = self.cfg.DATA_POINTS
 		self.period = self.cfg.PERIOD
 		self.sell = self.cfg.SELL

@@ -57,23 +57,26 @@ class Utils:
 		return ticker["timestamp"]
 
 
-	async def get_historical_data(self, symbol: str, length: int, timeframe: str):
+	async def get_historical_data(self, symbol: str, length: int, timeframe):
 		"""
 		Gets historical data from exchange for *symbol* with *length* datapoints
 		on the specified *timeframe*. 
 		Returns historical data with the oldest at index 0, and the newest at
 		the end.
 
-		Supported timeframes = 1 minute, 5 minutes, 30 minutes, 1 hour, 1 day.
+		Supported timeframes = 1 minute, 5 minutes, 30 minutes, 1 hour, 4 hour, 1 day
 		"""
 		base = await self.curr_timestamp(symbol)
 		base /= 1000
 		
-		since = datetime.fromtimestamp(base) - timedelta(minutes=length)
+		since = datetime.fromtimestamp(base) - timeframe.get_timedelta(length)
 		since = since.timestamp() * 1000
 
+		# need to do ohlcv testing
 		ohlcv = await self._aretry.call(self.client.fetch_ohlcv, 
-			symbol, "1m", since=since, limit=length+1)
+			symbol, timeframe.BASE.TIMEFRAME, since=since, limit=length+1)
+
+		ohlcv = timeframe.splice_data(ohlcv, timeframe.BASE, timeframe)
 
 		close_prices = [p[4] for p in ohlcv]
 

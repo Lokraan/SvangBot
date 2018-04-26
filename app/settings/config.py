@@ -8,7 +8,7 @@ from ichi_conf import IchiConfig
 from ema_conf import EmaConfig
 from rsi_conf import RsiConfig
 
-import timeframe_conf
+import timeframes
 
 import utils
 import ichimoku
@@ -49,7 +49,7 @@ class Config:
 
 		level = logging.INFO
 
-		f_handler = logging.FileHandler(filename="../../svaang.log", encoding="utf-8", mode="w")
+		f_handler = logging.FileHandler(filename="../../svangbot.log", encoding="utf-8", mode="w")
 		cl_handler = logging.StreamHandler()
 
 		dt_fmt = "%Y-%m-%d %H:%M:%S"
@@ -68,13 +68,13 @@ class Config:
 		self.UTILS = utils.Utils(self.CLIENT, self.LOGGER)
 
 		# Strategy config
-		self.INDICATOR = rsi.RSI(self.UTILS, self.RSI_CFG, self.LOGGER)
-		self.TIMEFRAME = timeframe_conf.timeframes[self.TIMEFRAME]
+		self.INDICATOR = rsi.RSI(self.UTILS, self.RSI_CFG, self.LOGGER, self.TIMEFRAME)
+		self.TIMEFRAME = timeframes.timeframes[self.TIMEFRAME]
 
 
 class DevConfig(Config):
-	def __init__(self):
-		Config.__init__(self, API_KEY=None, SECRET=None)
+	def __init__(self, API_KEY=None, SECRET=None, TIMEFRAME=None):
+		Config.__init__(self, API_KEY=None, SECRET=None, TIMEFRAME=None)
 		self.DEBUG = True
 		self.TEST = True
 
