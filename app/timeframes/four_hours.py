@@ -1,14 +1,17 @@
 
 
 from timeframe import Timeframe
-import timedelta
+from datetime import timedelta
+import one_hour
 
-class OneHour(Timeframe):
+class FourHours(Timeframe):
 	"""
 	Timeframe class for four hours.
 	"""
 
-	TIMEFRAME = "5m"
+	TIMEFRAME = "4h"
+	MINUTES = 240
+	BASE = one_hour.OneHour
 
 	@staticmethod
 	def get_timedelta(length):

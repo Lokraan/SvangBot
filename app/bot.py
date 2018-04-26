@@ -18,7 +18,6 @@ class Bot:
 
 
 	# async def analyze_symbol(self, indicator):
-		
 
 
 	def _get_current_price(self) -> float:

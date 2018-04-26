@@ -1,7 +1,8 @@
 
 
 from timeframe import Timeframe
-import timedelta
+from datetime import timedelta
+import one_minute
 
 class FiveMinutes(Timeframe):
 	"""
@@ -9,6 +10,8 @@ class FiveMinutes(Timeframe):
 	"""
 
 	TIMEFRAME = "5m"
+	MINUTES = 5
+	BASE = one_minute.OneMinute
 
 	@staticmethod
 	def get_timedelta(length):

@@ -2,21 +2,23 @@
 
 from timeframe import Timeframe
 from datetime import timedelta
+import one_hour
 
-class OneHour(Timeframe):
+class OneDay(Timeframe):
 	"""
-	Timeframe class for one hour.
+	Timeframe class for four hours.
 	"""
 
-	TIMEFRAME = "1h"
-	MINUTES = 60
+	TIMEFRAME = "1d"
+	MINUTES = 1440
+	BASE = one_hour.OneHour
 
 	@staticmethod
 	def get_timedelta(length):
-		return timedelta(hours=length)
+		return timedelta(days=length)
 
 	def __eq__(self, other):
-		return other == TIMEFRAME	
+		return other == TIMEFRAME
 
 	def __str__(self):
 		return TIMEFRAME

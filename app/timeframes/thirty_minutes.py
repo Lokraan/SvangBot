@@ -1,14 +1,17 @@
 
 
 from timeframe import Timeframe
-import timedelta
+from datetime import timedelta
+import one_minute
 
 class ThirtyMinutes(Timeframe):
 	"""
 	Timeframe class for thirty minutes.
 	"""
 
-	TIMEFRAME = "5m"
+	TIMEFRAME = "30m"
+	MINUTES = 30
+	BASE = one_minute.OneMinute
 
 	@staticmethod
 	def get_timedelta(length):

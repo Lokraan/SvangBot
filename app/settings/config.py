@@ -4,21 +4,27 @@ import ccxt.async as ccxt
 import logging
 import sys
 
-
 from ichi_conf import IchiConfig
 from ema_conf import EmaConfig
 from rsi_conf import RsiConfig
 
+import timeframe_conf
+
+import utils
 import ichimoku
 import rsi
-import utils
-
 
 class Config:
-	def __init__(self, API_KEY=None, SECRET=None):
+	def __init__(self, API_KEY=None, SECRET=None, TIMEFRAME=None):
 		self.DEBUG = False
 		self.TEST = False
 
+		# Trading config
+		self.MULTIPLIER = 1.25 # something to do with the buy function
+		self.LEVERAGE = 25 # leverage to trade with
+		self.INTERVAL = 60 # how often it connects to the exchange and calculates whatever
+
+		self.TIMEFRAME = TIMEFRAME # timeframe to calculate indicators with
 		self.SYMBOL = "BTC/USD"
 		self.API_KEY = API_KEY
 		self.SECRET = SECRET
@@ -35,10 +41,6 @@ class Config:
 		self.EMA_CFG = EmaConfig
 		self.ICHI_CFG = IchiConfig
 		self.RSI_CFG = RsiConfig
-		self.MULTIPLIER = 1.25
-		self.TIMEFRAME = "1m"
-		self.LEVERAGE = 25
-		self.INTERVAL = 60
 		# Choosing Indicator
 		self.INDICATOR = "RSI"
 
@@ -65,8 +67,9 @@ class Config:
 
 		self.UTILS = utils.Utils(self.CLIENT, self.LOGGER)
 
-		if self.INDICATOR == "RSI":
-			self.INDICATOR = rsi.RSI(self.UTILS, self.RSI_CFG, self.LOGGER)
+		# Strategy config
+		self.INDICATOR = rsi.RSI(self.UTILS, self.RSI_CFG, self.LOGGER)
+		self.TIMEFRAME = timeframe_conf.timeframes[self.TIMEFRAME]
 
 
 class DevConfig(Config):

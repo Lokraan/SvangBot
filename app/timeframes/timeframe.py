@@ -11,15 +11,27 @@ class Timeframe:
 	as well.
 	"""
 
+	ERR = "Please implement this method u.u"
 	@staticmethod
 	def get_timedelta(length: int):
-		raise NotImplementedError("Please implement this method u.u")
+		raise NotImplementedError(ERR)
+
+	@staticmethod
+	def splice_data(data: list, timeframe, desired):
+		if timeframe.MINUTES > desire.MINUTES:
+			raise TypeError("Cannot scale timeframes DOWN")
+			
+		elif timeframe.MINUTES == desired.TIMEFRAME:
+			return data
+
+		ratio = desired.MINUTES / timeframe.MINUTES
+		return data[::ratio]
 
 	def __eq__(self, other):
-		raise NotImplementedError("Please implement this method u.u")
+		raise NotImplementedError(ERR)
 
 	def __str__(self, other):
-		raise NotImplementedError("Please implement this method u.u")
+		raise NotImplementedError(ERR)
 
 	__repr__ = __str__
 	
